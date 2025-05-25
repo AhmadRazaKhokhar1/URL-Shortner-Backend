@@ -1,4 +1,4 @@
-import { userTypeDefs } from "./user.typedef.js";
+import { tinyUrlTypeDefs } from "./tiny-url.typedef.js";
 
 
-export const TypeDefs = [userTypeDefs]
+export const TypeDefs = [tinyUrlTypeDefs]

@@ -64,7 +64,7 @@ This repository is a great learning platform for:
 git clone https://github.com/AhmadRazaKhokhar1/url-shortner-backend.git
 cd url-shortner-backend
 ```
-### 1. Run you backend and enjoy!
+### 1. Run your backend and enjoy!
 ```bash
 docker compose up --build --watch
 ```

@@ -3,3 +3,7 @@ export interface IPasswordLessAuthenticationMutationProps {
   email: string;
   profileImage?: string;
 }
+export interface IBodyOTPArgs {
+  otp: number;
+  userId: string;
+}

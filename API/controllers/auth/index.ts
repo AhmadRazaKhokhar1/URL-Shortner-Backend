@@ -30,11 +30,6 @@ export const AuthController = {
     try {
       const { name, email, profileImage } =
         req.body as IPasswordLessAuthenticationMutationProps;
-      console.log(`🚀 ~ passwordLessAuthentication:`, {
-        name,
-        email,
-        profileImage,
-      });
 
       // Validation
       if (!email) {
@@ -52,10 +47,8 @@ export const AuthController = {
       // Checking if the user already exists
       const alreadyExists = await UserModel.findOne({ email });
 
-      console.log("🚀 ~ alreadyExists:", alreadyExists?._id);
       // Generating OTP
       const new_otp = Math.floor(100000 + Math.random() * 900000);
-      console.log("🚀 ~ passwordLessAuthentication: ~ new_otp:", new_otp);
 
       // Path to the email temp
       const templatePath = path.join(
@@ -122,7 +115,6 @@ export const AuthController = {
   verifyOTP: async (req: Request, res: Response) => {
     try {
       const { otp, userId } = req.body as unknown as IBodyOTPArgs;
-      console.log("🚀 ~ verifyOTP: ~ otp, userId :", otp, userId);
 
       if (!otp || !userId) {
         return res.status(404).json({

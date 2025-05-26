@@ -10,7 +10,6 @@ export const TinyUrlResolver = {
         const tinyUrls = await TinyUrlModel.find({
           userId,
         }).sort({ createdAt: -1 });
-        console.log("🚀 ~ getAllUrls: ~ tinyUrls:", tinyUrls);
         return tinyUrls ?? [];
       } catch (error) {
         console.error(
@@ -24,7 +23,6 @@ export const TinyUrlResolver = {
   Mutation: {
     makeTinyUrl: async (_, { input: { originalUrl, userId } }) => {
       try {
-        console.log(originalUrl, userId);
         // Validation
         if (!originalUrl) {
           throw new Error("Url is a required field");

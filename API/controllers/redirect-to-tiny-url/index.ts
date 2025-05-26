@@ -7,6 +7,8 @@ export const RedirectToTinyUrlController = {
       const { shortUrl } = req.query;
       const urlObj = await TinyUrlModel.findOne({ shortUrl });
       if (urlObj?._id) {
+        urlObj.clicksCount += 1;
+        await urlObj.save();
         return res.status(200).json(urlObj);
       } else {
         return res.status(404).json({

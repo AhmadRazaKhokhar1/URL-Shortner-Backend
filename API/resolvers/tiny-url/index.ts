@@ -9,8 +9,8 @@ export const TinyUrlResolver = {
         }
         const tinyUrls = await TinyUrlModel.find({
           userId,
-        });
-        console.log("🚀 ~ getAllUrls: ~ tinyUrls:", tinyUrls)
+        }).sort({ createdAt: -1 });
+        console.log("🚀 ~ getAllUrls: ~ tinyUrls:", tinyUrls);
         return tinyUrls ?? [];
       } catch (error) {
         console.error(

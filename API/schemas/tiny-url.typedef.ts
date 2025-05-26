@@ -1,5 +1,6 @@
 export const tinyUrlTypeDefs = `#graphql
 type TinyUrl {
+_id:String!
 originalUrl: String!
 shortUrl: String!
 userId:String!

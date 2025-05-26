@@ -1,16 +1,19 @@
-import { model, models, Schema } from "mongoose";
+import mongoose from "mongoose";
 import { nanoid } from "nanoid";
-
+const { model, models, Schema } = mongoose;
 export const tinyUrlSchema = new Schema(
   {
     originalUrl: {
-      required: true,
       type: String,
+      required: true,
     },
     shortUrl: {
       type: String,
-      required: true,
       unique: true,
+    },
+    userId: {
+      type: mongoose.Types.ObjectId,
+      required: true,
     },
     clicksCount: {
       type: Number,
@@ -28,7 +31,9 @@ tinyUrlSchema.pre("save", async function (next) {
 
     while (!unique) {
       newShortUrl = nanoid(7);
-      const existing = await models?.TinyUrl?.findOne({ shortUrl: newShortUrl });
+      const existing = await models?.TinyUrl?.findOne({
+        shortUrl: newShortUrl,
+      });
       if (!existing) {
         unique = true;
       }

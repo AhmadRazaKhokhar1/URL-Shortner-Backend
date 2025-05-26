@@ -1,12 +1,14 @@
 // Resolvers
-// import { AuthResolver } from "../controllers/auth/index.js";
+
+import { TinyUrlResolver } from "./tiny-url/index.js";
+
 
 // Merging all together
 export const Resolvers = {
   Mutation: {
-    // ...AuthResolver.Mutation,
+    ...TinyUrlResolver.Mutation,
   },
   Query: {
-    // ...AuthResolver.Query
+    ...TinyUrlResolver.Query
   },
 };

@@ -19,8 +19,9 @@ import { ConnectMongoDB, startEmailOTPQueueProcessors } from "./utils/index.js";
 import AuthRouter from "./API/routes/auth/index.js";
 
 // Cookie Parser
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import TinyUrlRouter from "./API/routes/redirect-to-tiny-url/index.js";
 
 configDotenv();
 
@@ -41,9 +42,10 @@ async function startServer() {
   await ConnectMongoDB();
   // Middlewares
   app.use(express.json());
-  app.use(cors({origin:"http://localhost:3000", credentials:true}))
-  app.use(cookieParser())
+  app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+  app.use(cookieParser());
   app.use("/auth", AuthRouter);
+  app.use("/",TinyUrlRouter);
   app.use(
     "/graphql",
     express.json(),

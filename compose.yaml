@@ -13,7 +13,18 @@ services:
       - .:/app
     working_dir: /app
     command: npm run dev
-
+  web:
+    build: .
+    command: npm start
+    develop:
+      watch:
+        - action: sync
+          path: ./web
+          target: /src/web
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: package.json
   redis:
     image: redis:7
     container_name: redis-server

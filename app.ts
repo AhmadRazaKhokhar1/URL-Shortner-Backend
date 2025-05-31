@@ -9,9 +9,6 @@ import { Resolvers, TypeDefs } from "./API/index.js";
 // Dotenv
 import { configDotenv } from "dotenv";
 
-// Middlewares
-import { AuthMiddleWare } from "./API/middlewares/auth.js";
-
 // Utils
 import { ConnectMongoDB, startEmailOTPQueueProcessors } from "./utils/index.js";
 
@@ -21,6 +18,9 @@ import AuthRouter from "./API/routes/auth/index.js";
 // Cookie Parser
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { AuthRateLimiter } from "./API/middlewares/auth-rate-limiter.js";
+import { AuthMiddleWare } from "./API/middlewares/auth.js";
+import { GeneralRateLimiter } from "./API/middlewares/general-rate-limiter.js";
 import TinyUrlRouter from "./API/routes/redirect-to-tiny-url/index.js";
 
 configDotenv();
@@ -44,8 +44,15 @@ async function startServer() {
   app.use(express.json());
   app.use(cors({ origin: "http://localhost:3000", credentials: true }));
   app.use(cookieParser());
-  app.use("/auth", AuthRouter);
-  app.use("/",TinyUrlRouter);
+  app.use("/auth", AuthRateLimiter, AuthRouter);
+  app.use("/", TinyUrlRouter);
+  app.use((req, res, next) => {
+    const excludedPaths = ["/auth", "/redirect-to-tiny-url"];
+    if (excludedPaths.some((path) => req.path === path)) {
+      return next();
+    }
+    return GeneralRateLimiter(req, res, next);
+  });
   app.use(
     "/graphql",
     express.json(),
